@@ -43,7 +43,18 @@ Le polynôme caractéristique de cette matrice est $\chi (t) = t^2 + \alpha \gam
 **cf jupyter notebook**
 
 ## Question 3
-**demander de l'aide**
+
+$f$ définie plus haut et dont nous avons calculé la différentielle en question 1 est $\mathcal{C}^1$ par rapport à $x$ sur $\R^2$. Le théorème de Cauchy-Lipschitz s'applique et nous permet d'affirmer que pour une condition initiale $(t_0,x_0)$, la solution maximale de $S_f(t_0,x_0)$ associée est unique.  
+Soit $x_0 \in \R_{>0} \times \R_{>0}$.
+On considère la solution maximale de $S_f(t_0,x_0)$, notée  
+ $x(t) = (x_1(t), x_2(t))$.  
+Supposons l'existence de $t_1 \ne t_0$ dans $\mathcal{D}_x$ (domaine de définition de x) tel que $x(t_1) = (a, 0)$ où $a$ est un réel quelconque. $x$ appartient à $S_f(t_1, (a, 0))$ et en est aussi la solution maximale. 
+De plus, on peut définir une autre solution $y$ de la forme $y = (y_1, 0)$. Cette solution existe bien et $y_1$ a la forme d'une exponentielle. On choisit alors comme condition initiale $y(t_1) = (a, 0)$. Cette solution est définie pour tout $t$ dans $\R$, donc sur le même intervalle que $x$. C'est aussi une solution maximale pour $S_f(t_1, (a, 0))$.  
+On conclut que $x = y$.
+Seulement dans ce cas la condition initiale que l'on avait fixée dans $\R_{>0} \times \R_{>0}$ ne sera jamais atteinte par $x$ ce qui est contradictoire.  
+Notre hypothèse est donc fausse, il n'existe aucun $t_1$ tel que la coordonnées $x_2$ de $x$ s'annule.
+On peut effectuer le même raisonnement avec $x_1$.  
+Ainsi, lorsqu'on initialise une solution dans $\R_{>0} \times \R_{>0}$, elle reste dans $\R_{>0} \times \R_{>0}$.
 
 ## Question 4
 
@@ -163,8 +174,6 @@ On constate que $\bar x$, représenté par la croix rouge, se trouve au centre d
 
 ## Question 9
 
-**demander de l'aide ou voir avec Claire**
-
 On a maintenant le système :
 $$
 \begin{cases}
@@ -172,7 +181,17 @@ $$
 \dot x_2 = - x_2( \gamma - \delta x_1) - u_2(x_1, x_2)(H(x_1, x_2) - H_0)
 \end{cases}
 $$
-On pose $f_2 = f - (H - H_0)u$ ce qui permet de l'écrire $\dot x = f_2(x)$.
+On pose $f_2 = f - (H - H_0) \times u$ ce qui permet de l'écrire $\dot x = f_2(x)$.    
+  
+
+Si on suppose $H_0 = H(x(0))$, comme $\frac{dH(x(t))}{dt} = 0$, $H(x)$ est constante et on aura 
+$$
+\forall t \in \mathcal{D}_x, H(x(t)) = H_0
+$$  
+Mais alors $f_2 = f$ et alors les solutions de $\dot{x} = f_2(x)$ sont les mêmes que celles de $\dot{x} = f(x)$.  
+Ce résultat est vrai pour toute fonction $u : \R_2 \times \R_2 \rightarrow \R_2 \times \R_2$, et en particulier si $u$ est continûment différentiable.
+
+
 
 ## Question 10
 
@@ -184,8 +203,51 @@ $$
 $$
 Pour $k \in \R$, en choisissant $u : x \to k \nabla H(x)$, on obtient :
 $$
-\frac{d}{dt}(H(x(t)) - H_0) = - k \| \nabla H(x(t)) \|^2 (H(x(t) - H_0))
+\frac{d}{dt}(H(x(t)) - H_0) = - k \| \nabla H(x(t)) \|^2 (H(x(t)) - H_0)
 $$
-ce qui correspond au résultat souhaité.
+ce qui correspond au résultat souhaité.  
+  
+Si maintenant $x$ reste à une distance strictement positive de $\bar{x}$, c'est-à-dire qu'on peut trouver $c > 0$ tel que :
+$$
+\forall t \in \mathcal{D}_x, \|x - \bar{x} \| \geq c >0
+$$
+On a $\| \nabla H \|^2 = (\delta - \frac{\gamma}{x_1})^2 +(\beta - \frac{\alpha}{x_2})^2$  
+et  
+$\| x - \bar{x} \|^2 = (\frac{x_1}{\delta})^2(\delta - \frac{\gamma}{x_1})^2 + (\frac{x_2}{\beta})^2(\beta - \frac{\alpha}{x_2})^2$.  
 
+On pose $i = min(\beta, \alpha)$ et on choisit la norme $\|x \| = max(|x_1|, |x_2|)$.  
+On a  
+$\| x - \bar{x} \|^2 \leq \frac{\|x \|^2}{i^2} \| \nabla H(x) \|^2$.  
+D'après la question, $\| x \|$ est bornée sur $\R$, on peut considérer $M > 0$ telle que pour tout $t$,  
+$\| x(t) \| \leq M$.
+On a donc $\frac{i^2c}{M^2} \leq \| \nabla H(x(t)) \|^2$ quel que soit $t$. On pose $c' = \frac{i^2c}{M^2}$ 
+  
+En reprenant l'inégalité d'au-dessus, et la croissance de la fonction racine carrée, on a :
+$$
+\frac{d}{dt}(H(x(t)) - H_0) \leq - kc'(H(x(t)) - H_0)
+$$
+Par positivité de la fonction exponentielle on peut multiplier des deux côtés par $e^{kc't}$ les deux membres. On a alors :
+$$
+\forall t \in \R,  \frac{d}{dt}(e^{kc't}(H(x(t)) - H_0)) \leq 0
+$$
+Par croissance de l'intégrale on a $a \in \R$ tel que
+$$
+\forall t \in \R, H(x(t)) - H_0 \leq ae^{-kc't}
+$$
+De la même manière, en multipliant l'égalité de départ par $-1$, on peut refaire tout le raisonnement avec $H_0 - H(x(t))$ au lieu de $H(x(t)) - H_0$. On aboutit à :
+$$
+\forall t \in \R,  \frac{d}{dt}(e^{kc't}(H_0 - H(x(t)))) \leq 0
+$$
+On a $b \in \R$ tel que
+$$
+\forall t \in \R, H_0 - H(x(t))\leq be^{-kc't}
+$$
+Finalement,
+$$
+\forall t \in \R, -be^{-kc't} \leq H(x(t)) - H_0 \leq ae^{-kc't}
+$$
+On a bien démontré que $H(x)$ converge exponentiellement vers $H_0$ quand $t$ tend vers l'infini par encadrement.
 
+## Question 11
+
+**C'EST LA DERNIEEEEEEERE**
